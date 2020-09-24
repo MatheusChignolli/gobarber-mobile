@@ -42,7 +42,6 @@ const Input: React.RefForwardingComponent<InputRef,InputProps> = ({ name, icon, 
     setIsFocused(true);
   }, []);
 
-
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
 
@@ -72,7 +71,7 @@ const Input: React.RefForwardingComponent<InputRef,InputProps> = ({ name, icon, 
   }, [fieldName, registerField]);
 
   return (
-    <Container isFocused={isFocused} isField={isField}>
+    <Container isFocused={isFocused} isErrored={!!error}>
       <Icon
         name={icon}
         size={20}
