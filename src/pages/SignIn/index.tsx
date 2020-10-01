@@ -13,14 +13,11 @@ import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
-
+import { useAuth } from '../../hooks/auth'
 import getValidationError from '../../utils/getValidationErrors';
-
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-
 import logoImg from '../../assets/logo.png';
-
 import {
   Container,
   Title,
@@ -39,6 +36,7 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+  const { signIn } = useAuth();
 
   const handleSignIn = useCallback(
     async (data: SignInFormData) => {
@@ -56,10 +54,10 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        // await signIn({
-        //   email: data.email,
-        //   password: data.password,
-        // });
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationError(err);
@@ -75,16 +73,10 @@ const SignIn: React.FC = () => {
 
         return;
 
-        // addToast({
-        //   type: 'error',
-        //   title: 'Error na autenticação',
-        //   description:
-        //     'Ocorreu um error ao fazer login, cheque as credenciais.',
-        // });
+        Alert.alert('Error na autenticação', 'Ocorreu um error ao fazer login, cheque as credenciais.');
+
       }
-    },
-    [],
-  );
+    }, [signIn],);
 
   return(
     <>
